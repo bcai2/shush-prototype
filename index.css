@@ -1,0 +1,46 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+button {
+    cursor: pointer;
+}
+
+.inputbox {
+    width: 50px;
+    height: 50px;
+    font-size: xx-large;
+    text-align: center;
+    margin: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.block {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: lightgray;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.loading {
+    background: url('loading.gif') no-repeat center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 9999999;
+    text-align: center;
+    vertical-align: middle;
+    font-size: xx-large;
+    align-items: center;
+}

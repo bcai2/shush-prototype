@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤫</title>
+    <link rel="stylesheet" href="./index.css">
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <style type="text/css">
+        #visNetwork {
+            width: 90%;
+            height: 80vh;
+            border: 1px solid lightgray;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="./index.js" type="module" defer></script>
+    <div class="container">
+        <h1 id="solved_notif"></h1>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
+        <div class="container" style="float: left; width: auto;">
+            <h1 id="feedback"></h1>
+        </div>
+        <div class="container" style="float: left; width: auto;">
+            <input type="text" class="textfield inputbox" value="" id="input" name="input">
+            <button id="enter_button" class="inputbox">➡️</button>
+        </div>
+        <div class="container" style="float: left; width: auto;">
+            <div class="block" id="solve1">
+                <p style="font-size: xx-large;">⚪</p>
+            </div>
+            <div class="block" id="solve2">
+                <p style="font-size: xx-large;">⚫</p>
+            </div>
+            <div class="block" id="solve3">
+                <p style="font-size: xx-large;">#️⃣</p>
+            </div>
+        </div>
+    </div>
+    <div id="canvasWrapper" style="position: relative;">
+        <div id="visNetwork"></div>
+        <div id="loadingScreen" class="loading" style="display: none;">
+            <div id="loadingScreenText" style="position: relative; top: 50%; transform: translateY(-50%);"></div>
+        </div>
+    </div>
+    <script src="./initialize_graph.js" type="module"></script>
+    
+    <div class="container">
+        <h2>Debug buttons (only press if something goes terribly wrong)</h2>
+    </div>
+    <div class="container">
+        <button id="reset_button">Reset</button>
+        <button id="solve_all_button">Solve everything (only click after solving)</button>
+    </div>
+</body>
+
+</html>

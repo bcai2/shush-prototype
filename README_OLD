@@ -1,0 +1,11 @@
+Current workflow:
+
+Data updates (if needed)
+- copy edges/synonyms data from google sheet to edges_sheet.txt, synonyms.txt
+- generate graph nodes/edges with clean.py
+- copy graph_visjs_data.txt fields over to graph_data.js
+
+Webapp updates
+- just edit index.js/index.html/index.css as needed
+
+this is not ideal but the prototype works. this will be cleaned/automated if iterations require it

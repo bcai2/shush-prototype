@@ -1,4 +1,4 @@
-const nodeList = [
+// puzzle graph dataconst nodeList = [
 	{ id: 1, label: '❓', group: 1, hidden: true },
 	{ id: 2, label: '❓', group: 1, hidden: true },
 	{ id: 3, label: '❓', group: 1, hidden: true },

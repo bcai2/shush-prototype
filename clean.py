@@ -1,15 +1,26 @@
 import networkx as nx
 import emoji
 
+edges_sheet = "edges_sheet.txt"
+synonyms_sheet = "synonyms.txt"
+graph_data_js = "graph_data.js"
+
 cluephrases = ["PUZZLEPART", "OPENEDLOCK", "MAGICSTICK"]
 starting_node = "🤫"
+
+# solve_phrase
+solve_phrase = ["🧩", "🔓", "🪄"]
+
+# Variables relevant to round meta
 meta_node = "👀"
+meta_node_background_color = "#4D96FA"
 frozen_category_node = "Livestock"
-frozen_category_enum = "⑤●●●6️⃣●●●❿" # subject to change
+frozen_category_enum = "⑤●●●6️⃣●●●❿"
+
 
 def get_synonym_dict(node_list):
     D = {}
-    with open("synonyms.txt", "r", encoding="utf8") as f:
+    with open(synonyms_sheet, "r", encoding="utf8") as f:
         for line in f:
             synonym_line = [x for x in line.split("\t") if x != ""]
             if len(synonym_line) <= 1:
@@ -28,7 +39,7 @@ def get_synonym_dict(node_list):
     # print(D)
     return D
 
-def get_entries(filename):
+def convert_edges_sheet_to_graph(filename):
     G = nx.Graph()
 
     last_cluephrase_entries = [{}, {}, {}]
@@ -59,43 +70,38 @@ def get_entries(filename):
                     G.add_edge(node, next_node)
     return G
 
-def get_degree_info(G):
-    sorted_nodes = sorted(G.nodes, key=lambda node: G.degree[node])
-    for node in sorted_nodes:
-        print(node, G.degree[node])
-    return G
-
-def get_info(G):
+def write_graph_data_to_js(G):
     node_id = {}
-    special_nodes = []
+    category_nodes = []
     edges = []
     counter = 1
 
+    # assign an ID to each node so that category nodes are the largest IDs
+    # (this helps the color scheme appear consistent in vis.js for all category-emoji edges)
     node_list_sorted = [x for x in G.nodes if emoji.is_emoji(x)] + [x for x in G.nodes if not emoji.is_emoji(x)]
-
     for node in node_list_sorted:
         node_id[node] = counter
         counter += 1
         if not emoji.is_emoji(node):
-            special_nodes.append(node)
+            category_nodes.append(node)
     
     # get printed emoji list and synonym object map
     synonym_map = get_synonym_dict(node_list_sorted)
-    emoji_list = "[0,\"" + "\",\"".join(node_list_sorted[:-len(special_nodes)]) + "\"]"
+    emoji_list = "[0,\"" + "\",\"".join(node_list_sorted[:-len(category_nodes)]) + "\"]"
     synonym_map_str = "{" + ",".join(f"\"{x}\": \"{synonym_map[x]}\"" for x in synonym_map) + "}"
     
     for edge in G.edges:
         u,v = edge
         edges.append(sorted((int(node_id[u]), int(node_id[v])), reverse=True))
 
-    with open("graph_visjs_data.txt", "w", encoding="utf8") as f:
+    with open(graph_data_js, "w", encoding="utf8") as f:
         # write all nodes
+        f.write('// puzzle graph data\n')
         f.write('const nodeList = [\n')
         for node in node_id:
-            if node not in special_nodes:
+            if node not in category_nodes:
                 if node == meta_node: # meta node is slightly darker
-                    f.write("\t{{ id: {0}, label: '{1}', group: 1, hidden: true, color: {{ background: '#4D96FA' }} }},\n".format(node_id[node], "❓"))
-                    # f.write("\t{{ id: {0}, label: '{1}', group: 1 }},\n".format(node_id[node], node))
+                    f.write("\t{{ id: {0}, label: '{1}', group: 1, hidden: true, color: {{ background: '{2}' }} }},\n".format(node_id[node], "❓", meta_node_background_color))
                 elif node == starting_node: # starting node isn't hidden
                     f.write("\t{{ id: {0}, label: '{1}', group: 1 }},\n".format(node_id[node], "❓"))
                 else:
@@ -119,11 +125,21 @@ def get_info(G):
         # write list of all emojis by ID
         f.write('const emoji_labels = {0};\n\n'.format(emoji_list))
 
-def run():
-    edges_sheet = "edges_sheet.txt"
-    G = get_entries(edges_sheet)
-    get_info(G)
+        # write vars relevant to solve / meta
+        meta_vars_and_export_statements = """
+const solvePhrase = {0};
 
+// details for darker blue node used in the meta
+const metaRelevantEmoji = "{1}";
+const metaRelevantColor = '{2}';
+const metaRelevantId = emoji_labels.indexOf(metaRelevantEmoji);
+
+export {{ synonyms, emoji_labels, metaRelevantColor, metaRelevantId, solvePhrase, nodeList, edgeList }};
+""".format(solve_phrase, meta_node, meta_node_background_color)
+        f.write(meta_vars_and_export_statements)
+    
+
+# converts names of categories to non-alpha characters (used for puzzle solution)
 def convert_names_to_enums(label, index_chars, last_cluephrase_entries):
     index_sets = ["①②③④⑤⑥⑦⑧⑨⑩", "❶❷❸❹❺❻❼❽❾❿", [":one:",":two:",":three:",":four:",":five:",":six:",":seven:",":eight:",":nine:",":ten:"]]
 
@@ -157,6 +173,6 @@ def convert_names_to_enums(label, index_chars, last_cluephrase_entries):
     return "".join(enum_label_chars)
     
 
-
 if __name__ == "__main__":
-    run()
+    G = convert_edges_sheet_to_graph(edges_sheet)
+    write_graph_data_to_js(G)

@@ -1,15 +1,13 @@
 import networkx as nx
 import emoji
 
-edges_sheet = "edges_sheet.txt"
-synonyms_sheet = "synonyms.txt"
-graph_data_js = "graph_data.js"
+edges_sheet = "data/edges_sheet.txt"
+synonyms_sheet = "data/synonyms.txt"
+graph_data_js = "puzzle_page/graph_data.js"
 
 cluephrases = ["PUZZLEPART", "OPENEDLOCK", "MAGICSTICK"]
-starting_node = "🤫"
-
-# solve_phrase
 solve_phrase = ["🧩", "🔓", "🪄"]
+starting_node = "🤫"
 
 # Variables relevant to round meta
 meta_node = "👀"
@@ -36,7 +34,6 @@ def get_synonym_dict(node_list):
                             main_node = variant
                     else:
                         D[c] = main_node
-    # print(D)
     return D
 
 def convert_edges_sheet_to_graph(filename):
@@ -139,7 +136,7 @@ export {{ synonyms, emoji_labels, metaRelevantColor, metaRelevantId, solvePhrase
         f.write(meta_vars_and_export_statements)
     
 
-# converts names of categories to non-alpha characters (used for puzzle solution)
+# converts names/labels of categories to non-alpha characters (used for puzzle solution)
 def convert_names_to_enums(label, index_chars, last_cluephrase_entries):
     index_sets = ["①②③④⑤⑥⑦⑧⑨⑩", "❶❷❸❹❺❻❼❽❾❿", [":one:",":two:",":three:",":four:",":five:",":six:",":seven:",":eight:",":nine:",":ten:"]]
 

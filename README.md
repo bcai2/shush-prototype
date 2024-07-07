@@ -13,5 +13,12 @@ Much of the logic/code is puzzle-specific.
   - `emoji`
 
 # Usage Guide
-[]
 
+## Solvers
+
+Navigate to `puzzle_page/index.html`.
+
+## Constructors
+
+1. Modify `data/edges_sheet.txt` and `data/synonyms.txt`.
+2. Run `make_graph.py`, which updates `puzzle_page/graph_data.js`.

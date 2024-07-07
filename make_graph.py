@@ -1,10 +1,12 @@
 import networkx as nx
 import emoji
 
+# Filepaths
 edges_sheet = "data/edges_sheet.txt"
 synonyms_sheet = "data/synonyms.txt"
 graph_data_js = "puzzle_page/graph_data.js"
 
+# Puzzle-specific info
 cluephrases = ["PUZZLEPART", "OPENEDLOCK", "MAGICSTICK"]
 solve_phrase = ["🧩", "🔓", "🪄"]
 starting_node = "🤫"

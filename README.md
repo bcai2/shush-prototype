@@ -3,8 +3,7 @@ Prototype of [🤫 from Huntinality 3: Hunts Upon A Time](https://www.huntinalit
 
 Inspired by [Collage](https://puzzles.mit.edu/2023/interestingthings.museum/puzzles/collage) from MIT Mystery Hunt 2023 ([prototype](https://github.com/alexirpan/collage-prototype)). Built using [vis.js](https://visjs.github.io/vis-network/docs/network/).
 
-
-Much of the logic/code is puzzle-specific. 
+Much of the code is puzzle-specific.
 
 # Requirements
 
@@ -20,5 +19,5 @@ Navigate to `puzzle_page/index.html`.
 
 ## Constructors
 
-1. Modify `data/edges_sheet.txt` and `data/synonyms.txt`.
+1. Modify `data/edges_sheet.txt` and `data/synonyms.txt`. See `data/README.md` for format info.
 2. Run `make_graph.py`, which updates `puzzle_page/graph_data.js`.
